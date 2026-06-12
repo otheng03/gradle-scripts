@@ -14,5 +14,4 @@ Run all cases (uses `gradle` on PATH by default; pass a path to test another ver
 
 ```sh
 ./run.sh
-./run.sh /path/to/gradle-8.x/bin/gradle   # compare against Gradle 8
 ```
