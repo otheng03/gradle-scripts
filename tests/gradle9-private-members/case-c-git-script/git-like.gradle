@@ -1,0 +1,15 @@
+// Mirrors lib/common-git.gradle: private script-level methods called
+// from inside the rootProject.ext {} configuration closure (lines 6/10).
+rootProject.ext {
+    gitPath = getGitPath()
+}
+
+private def getGitPath() {
+    return executeCommand('which', 'git')
+}
+
+private static String executeCommand(...command) {
+    def proc = command.toList().execute()
+    proc.waitFor()
+    return proc.in.text.trim()
+}

@@ -1,0 +1,7 @@
+apply from: 'shade-like.gradle'
+
+tasks.register('b') {
+    doLast {
+        println 'B: configuration phase completed without MissingMethodException'
+    }
+}

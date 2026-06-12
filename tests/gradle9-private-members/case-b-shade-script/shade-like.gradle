@@ -1,0 +1,20 @@
+// Mirrors lib/java-shade.gradle:
+// B1: `self.privateMethod(...)` from a project.afterEvaluate {} closure (lines 53/117)
+// B2: unqualified privateMethod(...) from a project.afterEvaluate {} closure (line 326)
+def self = this
+
+project.afterEvaluate {
+    self.configureViaSelf(project)
+}
+
+project.afterEvaluate {
+    configureUnqualified(project)
+}
+
+private void configureViaSelf(Project p) {
+    p.logger.lifecycle("B1 OK: self.configureViaSelf(${p.name}) from afterEvaluate closure")
+}
+
+private void configureUnqualified(Project p) {
+    p.logger.lifecycle("B2 OK: configureUnqualified(${p.name}) from afterEvaluate closure")
+}

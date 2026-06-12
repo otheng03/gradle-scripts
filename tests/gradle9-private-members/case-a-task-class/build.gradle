@@ -1,0 +1,39 @@
+// Mirrors lib/java-javadoc.gradle DownloadJavadocPackageListTask.
+// A1: a @TaskAction closure calls a public method, which calls a private method
+//     from its plain method body (the downloadListFile pattern).
+// A2: a @TaskAction closure calls a private method directly
+//     (the breakage documented in the Gradle 9 upgrade guide).
+class ReproTaskA1 extends DefaultTask {
+
+    @TaskAction
+    def run() {
+        [1, 2].forEach {
+            publicHelper(it)
+        }
+    }
+
+    def publicHelper(i) {
+        privateHelper(i)
+    }
+
+    private def privateHelper(i) {
+        logger.lifecycle("A1 OK: privateHelper(${i}) called from plain method body")
+    }
+}
+
+class ReproTaskA2 extends DefaultTask {
+
+    @TaskAction
+    def run() {
+        [1, 2].forEach {
+            privateHelper(it)
+        }
+    }
+
+    private def privateHelper(i) {
+        logger.lifecycle("A2 OK: privateHelper(${i}) called directly from closure")
+    }
+}
+
+tasks.register('a1', ReproTaskA1)
+tasks.register('a2', ReproTaskA2)

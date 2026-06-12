@@ -1,0 +1,8 @@
+apply from: 'git-like.gradle'
+
+tasks.register('c') {
+    def path = rootProject.ext.gitPath
+    doLast {
+        println "C OK: gitPath = ${path}"
+    }
+}
